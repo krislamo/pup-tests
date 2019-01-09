@@ -1,0 +1,22 @@
+- name: Install Puppet Master
+  apt: name=puppetmaster state=present
+  register: pup_install
+
+- name: Install NTP
+  apt: name=ntp state=present
+  register: ntp_status
+
+- name: Restart NTP
+  service: name=ntp state=restarted
+  when: ntp_status.changed
+
+- name: Wait for Webserver Key
+  wait_for:
+    path: /var/lib/puppet/ssl/ca/requests/webserver.pem
+  when: pup_install.changed
+
+- name: Sign Webserver Key
+  command: puppet cert sign webserver
+  args:
+    removes: /var/lib/puppet/ssl/ca/requests/webserver.pem
+

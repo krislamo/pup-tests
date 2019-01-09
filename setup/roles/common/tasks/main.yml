@@ -1,0 +1,14 @@
+# vi uses elvis-tiny on Debian. vim is better.
+- name: Install VIM
+  apt: name=vim state=present
+
+- name: Lock Puppet Version
+  template: 
+    src: 00-puppet.pref.j2
+    dest: /etc/apt/preferences.d/00-puppet.pref
+
+- name: Deploy hosts file
+  template:
+    src: hosts.j2
+    dest: /etc/hosts
+

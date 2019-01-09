@@ -1,0 +1,26 @@
+- name: Install Puppet Agent
+  apt: name=puppet state=present
+  register: agent_install
+
+- name: Deploy puppet.conf
+  template:
+    src: puppet.conf.j2
+    dest: /etc/puppet/puppet.conf
+
+- name: Start Puppet
+  service: name=puppet state=started
+
+- name: Wait for Puppet Master
+  wait_for:
+    host: puppet
+    port: 8140
+    delay: 10
+  when: agent_install.changed
+ 
+- name: Request Puppet Master
+  command: puppet agent -t
+  register: send_csr
+  failed_when: send_csr.rc > 1
+  when: agent_install.changed
+  become_user: vagrant
+
