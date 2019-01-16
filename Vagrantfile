@@ -19,7 +19,8 @@ Vagrant.configure("2") do |config|
     end
 
     # Sync Puppet code to Puppet Master
-    master.vm.synced_folder "./code", "/etc/puppet/code"
+    master.vm.synced_folder "./code", "/etc/puppet/code", type: "rsync",
+      rsync__args: ["--verbose", "--archive", "-z", "--copy-links"]
 
   end
 

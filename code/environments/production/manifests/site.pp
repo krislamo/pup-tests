@@ -1,3 +1,4 @@
 node 'webserver' {
-  notify { 'Hello Puppet!': }
+  include wordpress
 }
+

@@ -10,6 +10,16 @@
   service: name=ntp state=restarted
   when: ntp_status.changed
 
+- name: Install R10K
+  apt: name=r10k state=present
+  register: r10k_install
+
+- name: Install Puppet Modules
+  shell:
+    cmd: r10k puppetfile install
+    chdir: /etc/puppet/code/environments/production
+  when: r10k_install.changed
+
 - name: Wait for Webserver Key
   wait_for:
     path: /var/lib/puppet/ssl/ca/requests/webserver.pem

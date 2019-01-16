@@ -1,0 +1,17 @@
+forge "http://forge.puppetlabs.com"
+
+# Custom
+mod 'wordpress', local: true
+
+# Forge Mods
+mod 'puppetlabs-apache', '4.0.0' # Supported
+mod 'puppetlabs-stdlib', '5.1.0'
+mod 'puppetlabs-concat', '5.2.0'
+
+mod 'puppet-php', '6.0.2' # Approved
+
+mod 'puppetlabs-mysql', '7.0.0' # Supported
+mod 'puppetlabs-translate', '1.2.0'
+
+mod 'puppet-archive', '3.2.1'   # Approved
+
