@@ -10,13 +10,6 @@
 - name: Start Puppet
   service: name=puppet state=started
 
-- name: Wait for Puppet Master
-  wait_for:
-    host: puppet
-    port: 8140
-    delay: 10
-  when: agent_install.changed
- 
 - name: Request Puppet Master
   command: puppet agent -t
   register: send_csr

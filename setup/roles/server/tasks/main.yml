@@ -20,13 +20,3 @@
     chdir: /etc/puppet/code/environments/production
   when: r10k_install.changed
 
-- name: Wait for Webserver Key
-  wait_for:
-    path: /var/lib/puppet/ssl/ca/requests/webserver.pem
-  when: pup_install.changed
-
-- name: Sign Webserver Key
-  command: puppet cert sign webserver
-  args:
-    removes: /var/lib/puppet/ssl/ca/requests/webserver.pem
-

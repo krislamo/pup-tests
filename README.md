@@ -12,8 +12,8 @@ request, you are agreeing to comply with this waiver of copyright interest.
 
 ## Getting Started
 Puppet Tests is developed using the following technologies:
-* Vagrant 2.2.2 + vagrant-libvirt 0.0.45
-* Ansible 2.7.5
+* Vagrant 2.2.3
+* Ansible 2.7.6
 * Puppet 4.8.2
 
 After installing the above, simply navigate to the root directory and deploy
@@ -23,11 +23,18 @@ the virtual machines:
 
 Vagrant will create at least two virtual machines and provision a puppet
 client-server architecture using Ansible code from the /setup/ folder. You will
-want to login to client:
+want to login to the puppet master:
+
+`vagrant ssh master`
+
+Sign the client's certificate and logout:
+
+`sudo puppet cert sign webserver`
+
+`exit`
+
+Now login to the webserver and provision the machine:
 
 `vagrant ssh webserv`
 
-After logging into the puppet client, provision the machine:
-
 `sudo puppet agent -t`
-
