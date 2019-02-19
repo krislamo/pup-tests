@@ -13,28 +13,25 @@ request, you are agreeing to comply with this waiver of copyright interest.
 ## Getting Started
 Puppet Tests is developed using the following technologies:
 * Vagrant 2.2.3
-* Ansible 2.7.6
+* Ansible 2.7.7
 * Puppet 4.8.2
 
 After installing the above, simply navigate to the root directory and deploy
 the virtual machines:
 
-`vagrant up`
+`sudo chmod +x pup-tests.sh`
 
-Vagrant will create at least two virtual machines and provision a puppet
-client-server architecture using Ansible code from the /setup/ folder. You will
-want to login to the puppet master:
+`./pup-tests.sh create`
 
-`vagrant ssh master`
+The command above will create three virtual machines: a puppet master,
+a wordpress websever, and an amanda backup server.
 
-Sign the client's certificate and logout:
+Apply any code changes with the command below (omit the machine to run
+puppet on all clients):
 
-`sudo puppet cert sign webserver`
+`./pup-tests.sh apply [machine]`
 
-`exit`
+And if for some reason you come across an invalid certificate while running
+puppet, you can reapply a new certificate:
 
-Now login to the webserver and provision the machine:
-
-`vagrant ssh webserv`
-
-`sudo puppet agent -t`
+`./pup-tests.sh cert-update [machine]`

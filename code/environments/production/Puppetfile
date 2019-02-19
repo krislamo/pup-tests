@@ -2,6 +2,7 @@ forge "http://forge.puppetlabs.com"
 
 # Custom
 mod 'wordpress', local: true
+mod 'amanda', local: true
 
 # Forge Mods
 mod 'puppetlabs-apache', '4.0.0' # Supported

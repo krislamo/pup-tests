@@ -24,16 +24,22 @@ Vagrant.configure("2") do |config|
 
   end
 
-  # Puppet Agent
-  config.vm.define "webserv" do |webserv|
-    webserv.vm.box = "debian/stretch64"
-    webserv.vm.hostname = "webserver"
-    webserv.vm.network 'private_network', ip: '192.168.121.101'
+  # Clients / Agents
+  servers = ["webserver", "backups"]
+  ip = 101
 
-    # Setup Puppet Agent via Ansible
-    webserv.vm.provision "ansible" do |ansible|
-      ansible.compatibility_mode = "2.0"
-      ansible.playbook = "setup/client.yml"
+  servers.each do |server|
+    config.vm.define "#{server}" do |node|
+      node.vm.box = "debian/stretch64"
+      node.vm.hostname = "#{server}"
+      node.vm.network 'private_network', ip: '192.168.121.' + ip.to_s
+      ip = ip + 1
+
+      node.vm.provision "ansible" do |ansible|
+        ansible.compatibility_mode = "2.0"
+        ansible.playbook = "setup/client.yml"
+      end
+
     end
 
   end
