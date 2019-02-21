@@ -36,6 +36,8 @@ then
   vagrant ssh backups -c "sudo puppet agent -t"
 elif [ "$1" == "apply" ]
 then
+  vagrant ssh master -c "cd /etc/puppet/code/environments/production && \
+                         r10k puppetfile install"
   vagrant rsync
   if [ -z "$2" ]; then
     vagrant ssh webserver -c "sudo puppet agent -t"
