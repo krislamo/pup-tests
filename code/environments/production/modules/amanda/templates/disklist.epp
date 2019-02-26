@@ -1,2 +1,2 @@
-localhost /etc simple-gnutar-local
+webserver /var/www simple-gnutar-remote
 

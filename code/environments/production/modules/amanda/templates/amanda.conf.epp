@@ -17,8 +17,7 @@ define tapetype TEST-TAPE {
   filemark 4 kbytes
 }
 
-define dumptype simple-gnutar-local {
-    auth "local"
+define dumptype simple-gnutar-remote {
     compress none
     program "GNUTAR"
 }

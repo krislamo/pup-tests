@@ -33,7 +33,7 @@ class amanda {
     owner  => "backup"
   }
 
-  # Backup config
+  # Deploy config
   file { '/etc/amanda/MyConfig/amanda.conf':
     ensure  => file,
     content => template('amanda/amanda.conf.epp'),
@@ -44,6 +44,13 @@ class amanda {
   file { '/etc/amanda/MyConfig/disklist':
     ensure  => file,
     content => template('amanda/disklist.epp'),
+    owner   => "backup"
+  }
+
+  # Deploy amanda hosts for the amanda server
+  file { '/etc/amandahosts':
+    ensure  => file,
+    content => template('amanda/amandahosts-server.epp'),
     owner   => "backup"
   }
 
