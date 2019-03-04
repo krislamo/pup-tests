@@ -11,6 +11,19 @@ class amanda::client {
     shell => "/bin/bash"
   }
 
+  # Enable remote access from backup server
+  file { '/var/backups/.ssh':
+    ensure => directory
+  }
+
+  # Deploy temporary backup key made by pup-tests.sh
+  file { '/var/backups/.ssh/authorized_keys':
+    ensure  => file,
+    content => file('amanda/backup-key.pub'),
+    owner   => 'backup',
+    mode    => "644"
+  }
+
   # Deploy amanda hosts for clients
   file { '/etc/amandahosts':
     ensure  => file,

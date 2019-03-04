@@ -22,6 +22,17 @@ Vagrant.configure("2") do |config|
     master.vm.synced_folder "./code", "/etc/puppet/code", type: "rsync",
       rsync__args: ["--verbose", "--archive", "-z", "--copy-links"]
 
+    # Sync custom SSH keys to Puppet Master
+    modpath = "/etc/puppet/code/environments/production/modules/"
+
+    master.vm.provision "file",
+      source: "./keys/backup-key",
+      destination: modpath + "amanda/files/backup-key"
+
+    master.vm.provision "file",
+      source: "./keys/backup-key.pub",
+      destination: modpath + "amanda/files/backup-key.pub"
+
   end
 
   # Clients / Agents

@@ -26,6 +26,17 @@ EOF
 
 if [ "$1" == "create" ]
 then
+
+  mkdir -p keys
+
+  if [ -f ./keys/backup-key ] || [ -f ./keys/backup-key.pub ] ; then
+    rm ./keys/backup-key*
+  fi
+
+  ssh-keygen -t rsa -b 4096 -N '' -f ./keys/backup-key
+
+  chmod -R 777 ./keys
+
   vagrant destroy -f
   vagrant up
 
@@ -34,6 +45,7 @@ then
 
   vagrant ssh webserver -c "sudo puppet agent -t"
   vagrant ssh backups -c "sudo puppet agent -t"
+
 elif [ "$1" == "apply" ]
 then
   vagrant ssh master -c "cd /etc/puppet/code/environments/production && \
@@ -45,6 +57,7 @@ then
   else
     vagrant ssh $2 -c "sudo puppet agent -t";
   fi
+
 elif [ "$1" == "cert-update" ]
 then
   vagrant ssh master -c "sudo puppet cert clean $2"
@@ -54,6 +67,7 @@ then
   vagrant ssh master -c "sudo puppet cert sign $2"
   sleep 3
   vagrant ssh $2 -c "sudo puppet agent -t"
+
 elif [ "$1" == "help" ]
 then
   cat << "EOF"

@@ -47,6 +47,19 @@ class amanda {
     owner   => "backup"
   }
 
+#  # Enable remote access from backup server
+#  file { '/var/backups/.ssh':
+#    ensure => directory
+#  }
+
+  # Deploy temporary backup key made by pup-tests.sh
+  file { '/home/vagrant/.ssh/id_rsa':
+    ensure  => file,
+    content => file('amanda/backup-key'),
+    owner   => 'vagrant',
+    mode    => "600"
+  }
+
   # Deploy amanda hosts for the amanda server
   file { '/etc/amandahosts':
     ensure  => file,
