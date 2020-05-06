@@ -40,8 +40,8 @@ then
   vagrant destroy -f
   vagrant up
 
-  vagrant ssh master -c "sudo puppet cert sign webserver"
-  vagrant ssh master -c "sudo puppet cert sign backups"
+  vagrant ssh master -c "sudo puppet cert sign webserver.localdomain"
+  vagrant ssh master -c "sudo puppet cert sign backups.localdomain"
 
   vagrant ssh webserver -c "sudo puppet agent -t"
   vagrant ssh backups -c "sudo puppet agent -t"
@@ -60,11 +60,11 @@ then
 
 elif [ "$1" == "cert-update" ]
 then
-  vagrant ssh master -c "sudo puppet cert clean $2"
-  vagrant ssh $2 -c "sudo find /var/lib/puppet/ssl -name $2.pem -delete"
+  vagrant ssh master -c "sudo puppet cert clean $2.localdomain"
+  vagrant ssh $2 -c "sudo find /var/lib/puppet/ssl -name $2.localdomain.pem -delete"
   vagrant ssh $2 -c "sudo puppet agent -t"
   sleep 3
-  vagrant ssh master -c "sudo puppet cert sign $2"
+  vagrant ssh master -c "sudo puppet cert sign $2.localdomain"
   sleep 3
   vagrant ssh $2 -c "sudo puppet agent -t"
 
